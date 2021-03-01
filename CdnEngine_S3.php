@@ -88,28 +88,30 @@ class CdnEngine_S3 extends CdnEngine_Base {
 			return;
 		}
 
-		if ( empty( $this->_config['key'] ) ) {
-			throw new \Exception( 'Empty access key.' );
+		$config = [
+			'region' => $this->_config['bucket_location'],
+			'version' => '2006-03-01'
+		];
+
+		if(!getenv('ECS_CREDENTIALS')){
+			if ( empty( $this->_config['key'] ) ) {
+				throw new \Exception( 'Empty access key.' );
+			}
+
+			if ( empty( $this->_config['secret'] ) ) {
+				throw new \Exception( 'Empty secret key.' );
+			}
+
+			if ( empty( $this->_config['bucket'] ) ) {
+				throw new \Exception( 'Empty bucket.' );
+			}
+
+			$config['credentials'] = new \Aws\Credentials\Credentials(
+				$this->_config['key'],
+				$this->_config['secret'] );
 		}
 
-		if ( empty( $this->_config['secret'] ) ) {
-			throw new \Exception( 'Empty secret key.' );
-		}
-
-		if ( empty( $this->_config['bucket'] ) ) {
-			throw new \Exception( 'Empty bucket.' );
-		}
-
-		$credentials = new \Aws\Credentials\Credentials(
-			$this->_config['key'],
-			$this->_config['secret'] );
-
-		$this->api = new \Aws\S3\S3Client( array(
-				'credentials' => $credentials,
-				'region' => $this->_config['bucket_location'],
-				'version' => '2006-03-01'
-			)
-		);
+		$this->api = new \Aws\S3\S3Client( $config );
 	}
 
 	/**
@@ -132,6 +134,7 @@ class CdnEngine_S3 extends CdnEngine_Base {
 		}
 
 		foreach ( $files as $file ) {
+			if(!isset($file['local_path']) || empty($file['local_path'])) continue;
 			$local_path = $file['local_path'];
 			$remote_path = $file['remote_path'];
 
@@ -161,6 +164,11 @@ class CdnEngine_S3 extends CdnEngine_Base {
 	 * @return array
 	 */
 	private function _upload( $file, $force_rewrite = false ) {
+		if(!isset($file['local_path']) || empty($file['local_path'])) {
+			return $this->_get_result( $local_path, $remote_path,
+				W3TC_CDN_RESULT_ERROR, 'Source file not found.', $file );
+		}
+		
 		$local_path = $file['local_path'];
 		$remote_path = $file['remote_path'];
 

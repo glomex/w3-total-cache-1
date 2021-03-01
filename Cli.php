@@ -459,6 +459,62 @@ class W3TotalCache_Command extends \WP_CLI_Command {
 		\WP_CLI::success( __( 'PageCache Priming triggered successfully.',
 			'w3-total-cache' ) );
 	}
+
+	function handleCdnProcessQueue(){
+		$common = Dispatcher::component( 'Cdn_Core' );
+		$cdn = $common->get_cdn();
+		$force_rewrite = true;
+
+		$w3_cdn_plugin = Dispatcher::component( 'Cdn_Plugin' );
+		$w3_cdn_admin = Dispatcher::component( 'Cdn_Core_Admin' );
+		$cdnUploadQueue = $w3_cdn_admin->queue_get();
+		print_r($cdnUploadQueue);
+
+		if(!empty($cdnUploadQueue)){
+			foreach($cdnUploadQueue as $command=>$queue){
+				if($command != W3TC_CDN_COMMAND_UPLOAD) continue;
+				
+				$files = array();
+				$results = array();
+				$map = array();
+
+				foreach ( $queue as $result ) {
+					$files[] = $common->build_file_descriptor( $result->local_path, $result->remote_path );
+					$map[$result->local_path] = $result->id;
+				}
+
+				echo 'files: ';
+				print_r($files);
+
+				echo 'map: ';
+				print_r($map);
+
+				foreach ( $files as $file ) {
+					$local_file_name = $file['local_path'];
+					$remote_file_name = $file['remote_path'];
+					if ( !file_exists( $local_file_name ) ) {
+						Dispatcher::create_file_for_cdn( $local_file_name );
+					}
+
+					if ( file_exists( $local_file_name ) )
+						echo $local_file_name . ': ' . filesize($local_file_name);
+				}
+
+				$cdn->upload( $files, $results, $force_rewrite );
+
+				foreach ( $results as $result ) {
+					print_r($result);
+					echo 'isOkay: ' . var_export($result['result'] == W3TC_CDN_RESULT_OK, true);
+					if ( $result['result'] == W3TC_CDN_RESULT_OK ) {
+						Dispatcher::on_cdn_file_upload( $result['local_path'] );
+						$w3_cdn_admin->queue_delete( $map[$result['local_path']] );
+					} else {
+						$w3_cdn_admin->queue_update( $map[$result['local_path']], $result['error'] );
+					}
+				}
+			}
+		}
+	}
 }
 
 
