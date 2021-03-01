@@ -209,15 +209,15 @@ class Cdn_AdminNotes {
                                         in a browser.)</em>', 'w3-total-cache' );
 			break;
 
-		case ( $cdn_engine == 's3' && ( $c->get_string( 'cdn.s3.key' ) == '' || $c->get_string( 'cdn.s3.secret' ) == '' || $c->get_string( 'cdn.s3.bucket' ) == '' ) ):
+		case ( !getenv('ECS_CREDENTIALS') && $cdn_engine == 's3' && ( $c->get_string( 'cdn.s3.key' ) == '' || $c->get_string( 'cdn.s3.secret' ) == '' || $c->get_string( 'cdn.s3.bucket' ) == '' ) ):
 			$error = __( 'The <strong>"Access key", "Secret key" and "Bucket"</strong> fields cannot be empty.', 'w3-total-cache' );
 			break;
 
-		case ( $cdn_engine == 'cf' && ( $c->get_string( 'cdn.cf.key' ) == '' || $c->get_string( 'cdn.cf.secret' ) == '' || $c->get_string( 'cdn.cf.bucket' ) == '' || ( $c->get_string( 'cdn.cf.id' ) == '' && !count( $c->get_array( 'cdn.cf.cname' ) ) ) ) ):
+		case ( !getenv('ECS_CREDENTIALS') && $cdn_engine == 'cf' && ( $c->get_string( 'cdn.cf.key' ) == '' || $c->get_string( 'cdn.cf.secret' ) == '' || $c->get_string( 'cdn.cf.bucket' ) == '' || ( $c->get_string( 'cdn.cf.id' ) == '' && !count( $c->get_array( 'cdn.cf.cname' ) ) ) ) ):
 			$error = __( 'The <strong>"Access key", "Secret key", "Bucket" and "Replace default hostname with"</strong> fields cannot be empty.', 'w3-total-cache' );
 			break;
 
-		case ( $cdn_engine == 'cf2' && ( $c->get_string( 'cdn.cf2.key' ) == '' || $c->get_string( 'cdn.cf2.secret' ) == '' || ( $c->get_string( 'cdn.cf2.id' ) == '' && !count( $c->get_array( 'cdn.cf2.cname' ) ) ) ) ):
+		case ( !getenv('ECS_CREDENTIALS') && $cdn_engine == 'cf2' && ( $c->get_string( 'cdn.cf2.key' ) == '' || $c->get_string( 'cdn.cf2.secret' ) == '' || ( $c->get_string( 'cdn.cf2.id' ) == '' && !count( $c->get_array( 'cdn.cf2.cname' ) ) ) ) ):
 			$error = __( 'The <strong>"Access key", "Secret key" and "Replace default hostname with"</strong> fields cannot be empty.', 'w3-total-cache' );
 			break;
 

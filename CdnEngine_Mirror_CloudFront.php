@@ -29,16 +29,18 @@ class CdnEngine_Mirror_CloudFront extends CdnEngine_Mirror {
 			return;
 		}
 
-		$credentials = new \Aws\Credentials\Credentials(
-			$this->_config['key'],
-			$this->_config['secret'] );
+		$config = [
+			'region' => 'us-east-1',
+			'version' => '2018-11-05'
+		];
 
-		$this->api = new \Aws\CloudFront\CloudFrontClient( array(
-				'credentials' => $credentials,
-				'region' => 'us-east-1',
-				'version' => '2018-11-05'
-			)
-		);
+		if(!getenv('ECS_CREDENTIALS')){
+			$config['credentials'] = new \Aws\Credentials\Credentials(
+				$this->_config['key'],
+				$this->_config['secret'] );
+		}
+
+		$this->api = new \Aws\CloudFront\CloudFrontClient( $config );
 
 		return true;
 	}
