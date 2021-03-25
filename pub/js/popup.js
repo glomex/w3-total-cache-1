@@ -546,7 +546,7 @@ var W3tc_Popup_Cdn_Import_Library = {
 
 var W3tc_Popup_Cdn_Rename_Domain = {
     paused: 0,
-    limit: 25,
+    limit: 10,
     offset: 0,
     retry_seconds: 10,
     seconds_elapsed: 0,
