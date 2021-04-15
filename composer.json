@@ -2,7 +2,7 @@
     "name": "glomex/w3-total-cache",
     "description": "Altered version of W3TC plugin with support for internal Glomex infrastructure",
     "type": "wordpress-plugin",
-    "version": "2.1.2.1",
+    "version": "2.1.2.2",
     "require-dev": {
         "roave/security-advisories": "dev-master"
     }
