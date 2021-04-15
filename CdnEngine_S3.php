@@ -168,7 +168,7 @@ class CdnEngine_S3 extends CdnEngine_Base {
 			return $this->_get_result( $local_path, $remote_path,
 				W3TC_CDN_RESULT_ERROR, 'Source file not found.', $file );
 		}
-		
+
 		$local_path = $file['local_path'];
 		$remote_path = $file['remote_path'];
 
