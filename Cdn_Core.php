@@ -335,7 +335,9 @@ class Cdn_Core {
 			$file = ltrim( str_replace( $upload_info['basedir'], '', $file ), '/\\' );
 			$matches = null;
 
-			if ( preg_match( '~(\d{4}/\d{2}/)?[^/]+$~', $file, $matches ) ) {
+			$regex = apply_filters('w3tc_cdn_normalize_attachment_file_regex', '~(\d{4}/\d{2}/)?[^/]+$~');
+
+			if ( preg_match( $regex, $file, $matches ) ) {
 				$file = $matches[0];
 			}
 		}

@@ -1,6 +1,8 @@
 <?php
 namespace W3TC;
 
+use GlomexTheme\Wordpress\Content\Filters;
+
 class Util_Environment {
 	/**
 	 * Formats URL
@@ -349,6 +351,9 @@ class Util_Environment {
 	 * for a number of times CDN calls it
 	 */
 	static public function wp_upload_dir() {
+		if(class_exists(Filters::class))
+			add_filter('upload_dir', [Filters::class, 'set_custom_upload_dir'], 10, 1);
+
 		static $values_by_blog = array();
 
 		$blog_id = Util_Environment::blog_id();
