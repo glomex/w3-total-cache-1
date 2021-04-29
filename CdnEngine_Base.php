@@ -240,16 +240,16 @@ class CdnEngine_Base {
 	function format_url( $path ) {
 		$url = $this->_format_url( $path );
 
-		if ( $url && $this->_config['compression'] &&
-			isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) &&
-			stristr( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) !== false &&
-			$this->_may_gzip( $path ) ) {
-			if ( ( $qpos = strpos( $url, '?' ) ) !== false ) {
-				$url = substr_replace( $url, $this->_gzip_extension, $qpos, 0 );
-			} else {
-				$url .= $this->_gzip_extension;
-			}
-		}
+//		if ( $url && $this->_config['compression'] &&
+//			isset( $_SERVER['HTTP_ACCEPT_ENCODING'] ) &&
+//			stristr( $_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip' ) !== false &&
+//			$this->_may_gzip( $path ) ) {
+//			if ( ( $qpos = strpos( $url, '?' ) ) !== false ) {
+//				$url = substr_replace( $url, $this->_gzip_extension, $qpos, 0 );
+//			} else {
+//				$url .= $this->_gzip_extension;
+//			}
+//		}
 
 		return $url;
 	}

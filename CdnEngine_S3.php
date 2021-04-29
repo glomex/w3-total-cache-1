@@ -147,10 +147,10 @@ class CdnEngine_S3 extends CdnEngine_Base {
 
 			$results[] = $this->_upload( $file, $force_rewrite );
 
-			if ( $this->_config['compression'] && $this->_may_gzip( $remote_path ) ) {
-				$file['remote_path_gzip'] = $remote_path . $this->_gzip_extension;
-				$results[] = $this->_upload_gzip( $file, $force_rewrite );
-			}
+//			if ( $this->_config['compression'] && $this->_may_gzip( $remote_path ) ) {
+//				$file['remote_path_gzip'] = $remote_path . $this->_gzip_extension;
+//				$results[] = $this->_upload_gzip( $file, $force_rewrite );
+//			}
 		}
 
 		return !$this->_is_error( $results );
@@ -340,24 +340,24 @@ class CdnEngine_S3 extends CdnEngine_Base {
 					$file );
 			}
 
-			if ( $this->_config['compression'] ) {
-				$remote_path_gzip = $remote_path . $this->_gzip_extension;
-
-				try {
-					$this->api->deleteObject( array(
-							'Bucket' => $this->_config['bucket'],
-							'Key' => $remote_path_gzip
-						) );
-					$results[] = $this->_get_result( $local_path, $remote_path_gzip,
-						W3TC_CDN_RESULT_OK, 'OK', $file );
-				} catch ( \Exception $ex ) {
-					$results[] = $this->_get_result( $local_path, $remote_path_gzip,
-						W3TC_CDN_RESULT_ERROR,
-						sprintf( 'Unable to delete object (%s).',
-							$ex->getMessage() ),
-						$file );
-				}
-			}
+//			if ( $this->_config['compression'] ) {
+//				$remote_path_gzip = $remote_path . $this->_gzip_extension;
+//
+//				try {
+//					$this->api->deleteObject( array(
+//							'Bucket' => $this->_config['bucket'],
+//							'Key' => $remote_path_gzip
+//						) );
+//					$results[] = $this->_get_result( $local_path, $remote_path_gzip,
+//						W3TC_CDN_RESULT_OK, 'OK', $file );
+//				} catch ( \Exception $ex ) {
+//					$results[] = $this->_get_result( $local_path, $remote_path_gzip,
+//						W3TC_CDN_RESULT_ERROR,
+//						sprintf( 'Unable to delete object (%s).',
+//							$ex->getMessage() ),
+//						$file );
+//				}
+//			}
 		}
 
 		return !$this->_is_error( $results );

@@ -86,10 +86,10 @@ class CdnEngine_S3_Compatible extends CdnEngine_Base {
 
 			$results[] = $this->_upload( $file, $force_rewrite );
 
-			if ( $this->_config['compression'] && $this->_may_gzip( $remote_path ) ) {
-				$file['remote_path_gzip'] = $remote_path . $this->_gzip_extension;
-				$results[] = $this->_upload_gzip( $file, $force_rewrite );
-			}
+//			if ( $this->_config['compression'] && $this->_may_gzip( $remote_path ) ) {
+//				$file['remote_path_gzip'] = $remote_path . $this->_gzip_extension;
+//				$results[] = $this->_upload_gzip( $file, $force_rewrite );
+//			}
 		}
 
 		return !$this->_is_error( $results );
@@ -240,25 +240,25 @@ class CdnEngine_S3_Compatible extends CdnEngine_Base {
 						$this->_get_last_error() ), $file );
 			}
 
-			if ( $this->_config['compression'] ) {
-				$remote_path_gzip = $remote_path . $this->_gzip_extension;
-
-				$this->_set_error_handler();
-				$result = @$this->_s3->deleteObject( $this->_config['bucket'],
-					$remote_path_gzip );
-				$this->_restore_error_handler();
-
-				if ( $result ) {
-					$results[] = $this->_get_result( $local_path,
-						$remote_path_gzip, W3TC_CDN_RESULT_OK, 'OK', $file );
-				} else {
-					$results[] = $this->_get_result( $local_path,
-						$remote_path_gzip, W3TC_CDN_RESULT_ERROR,
-						sprintf( 'Unable to delete object (%s).',
-							$this->_get_last_error() ),
-						$file );
-				}
-			}
+//			if ( $this->_config['compression'] ) {
+//				$remote_path_gzip = $remote_path . $this->_gzip_extension;
+//
+//				$this->_set_error_handler();
+//				$result = @$this->_s3->deleteObject( $this->_config['bucket'],
+//					$remote_path_gzip );
+//				$this->_restore_error_handler();
+//
+//				if ( $result ) {
+//					$results[] = $this->_get_result( $local_path,
+//						$remote_path_gzip, W3TC_CDN_RESULT_OK, 'OK', $file );
+//				} else {
+//					$results[] = $this->_get_result( $local_path,
+//						$remote_path_gzip, W3TC_CDN_RESULT_ERROR,
+//						sprintf( 'Unable to delete object (%s).',
+//							$this->_get_last_error() ),
+//						$file );
+//				}
+//			}
 		}
 
 		return !$this->_is_error( $results );
