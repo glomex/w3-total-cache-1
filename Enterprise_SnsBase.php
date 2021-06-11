@@ -1,7 +1,7 @@
 <?php
 namespace W3TC;
 
-if ( !defined( 'W3TC_SKIPLIB_AWS' ) ) {
+if ( !defined( 'W3TC_SKIPLIB_AWS' ) && file_exists(W3TC_DIR . '/vendor/autoload.php') ) {
 	require_once W3TC_DIR . '/vendor/autoload.php';
 }
 
