@@ -190,7 +190,13 @@ class Cdn_Plugin {
 				$common->purge( $files, $results );
 			}
 		} else {
-			$common->upload( $files, true, $results );
+			try {
+				foreach ($files as $file) {
+					$common->queue_add($file['local_path'], $file['remote_path'], W3TC_CDN_COMMAND_UPLOAD, 'Uploading files that should have been uploaded on the fly!');
+				}
+			} catch (\Exception $e){
+				$common->upload( $files, true, $results );
+			}
 		}
 
 		return $attached_file;
