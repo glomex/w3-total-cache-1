@@ -2,8 +2,24 @@
     "name": "glomex/w3-total-cache",
     "description": "Altered version of W3TC plugin with support for internal Glomex infrastructure",
     "type": "wordpress-plugin",
-    "version": "2.1.2.4",
+    "version": "2.1.3",
     "require-dev": {
-        "roave/security-advisories": "dev-master"
+		"roave/security-advisories": "dev-master"
+	},
+    "require": {
+        "aws/aws-sdk-php": "^3.180",
+        "guzzlehttp/guzzle": "6.*",
+        "symfony/polyfill-intl-idn" : "1.20.*",
+        "symfony/polyfill-intl-normalizer" : "1.20.*",
+        "symfony/polyfill-mbstring" : "1.20.*"
+    },
+    "replace": {
+        "symfony/polyfill-php56": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*",
+        "symfony/polyfill-mbstring": "*"
     }
 }

@@ -2,7 +2,7 @@
 namespace W3TC;
 
 if ( !defined( 'W3TC_SKIPLIB_AWS' ) ) {
-	require_once W3TC_LIB_DIR . '/Aws/aws-autoloader.php';
+	require_once W3TC_DIR . '/vendor/autoload.php';
 }
 
 /**
@@ -164,13 +164,14 @@ class CdnEngine_S3 extends CdnEngine_Base {
 	 * @return array
 	 */
 	private function _upload( $file, $force_rewrite = false ) {
+		$local_path = $file['local_path'];
+		$remote_path = $file['remote_path'];
+
 		if(!isset($file['local_path']) || empty($file['local_path'])) {
 			return $this->_get_result( $local_path, $remote_path,
 				W3TC_CDN_RESULT_ERROR, 'Source file not found.', $file );
 		}
 
-		$local_path = $file['local_path'];
-		$remote_path = $file['remote_path'];
 
 		if ( !file_exists( $local_path ) ) {
 			return $this->_get_result( $local_path, $remote_path,
