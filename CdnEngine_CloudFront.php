@@ -29,18 +29,21 @@ class CdnEngine_CloudFront extends CdnEngine_Base {
 		if ( !is_null( $this->api ) ) {
 			return;
 		}
-		$config = [
-			'region' => $this->_config['bucket_location'],
-			'version' => '2018-11-05'
-		];
 
-		if(!getenv('ECS_CREDENTIALS')){
-			$config['credentials'] = new \Aws\Credentials\Credentials(
+		if ( empty( $this->_config['key'] ) && empty( $this->_config['secret'] ) ) {
+			$credentials = \Aws\Credentials\CredentialProvider::defaultProvider();
+		} else {
+			$credentials = new \Aws\Credentials\Credentials(
 				$this->_config['key'],
 				$this->_config['secret'] );
 		}
 
-		$this->api = new \Aws\CloudFront\CloudFrontClient( $config );
+		$this->api = new \Aws\CloudFront\CloudFrontClient( array(
+				'credentials' => $credentials,
+				'region' => $this->_config['bucket_location'],
+				'version' => '2018-11-05'
+			)
+		);
 
 		return true;
 	}
