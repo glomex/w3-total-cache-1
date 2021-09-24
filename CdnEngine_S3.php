@@ -88,30 +88,33 @@ class CdnEngine_S3 extends CdnEngine_Base {
 			return;
 		}
 
-		$config = [
-			'region' => $this->_config['bucket_location'],
-			'version' => '2006-03-01'
-		];
+		if ( empty( $this->_config['bucket'] ) ) {
+			throw new \Exception( 'Empty bucket.' );
+		}
 
-		if(!getenv('ECS_CREDENTIALS')){
+		if ( empty( $this->_config['key'] ) && empty( $this->_config['secret'] ) ) {
+			$credentials = \Aws\Credentials\CredentialProvider::defaultProvider();
+		} else {
 			if ( empty( $this->_config['key'] ) ) {
 				throw new \Exception( 'Empty access key.' );
 			}
 
-			if ( empty( $this->_config['secret'] ) ) {
-				throw new \Exception( 'Empty secret key.' );
-			}
+		if ( empty( $this->_config['secret'] ) ) {
+			throw new \Exception( 'Empty secret key.' );
+		}
 
-			if ( empty( $this->_config['bucket'] ) ) {
-				throw new \Exception( 'Empty bucket.' );
-			}
-
-			$config['credentials'] = new \Aws\Credentials\Credentials(
+			$credentials = new \Aws\Credentials\Credentials(
 				$this->_config['key'],
 				$this->_config['secret'] );
 		}
 
-		$this->api = new \Aws\S3\S3Client( $config );
+		$this->api = new \Aws\S3\S3Client( array(
+				'credentials' => $credentials,
+				'region' => $this->_config['bucket_location'],
+				'version' => '2006-03-01',
+				'use_arn_region' => true,
+			)
+		);
 	}
 
 	/**
