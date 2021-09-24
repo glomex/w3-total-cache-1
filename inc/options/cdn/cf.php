@@ -14,14 +14,14 @@ if ( !defined( 'W3TC' ) )
 	<th style="width: 300px;"><label for="cdn_cf_key"><?php _e( 'Access key ID:', 'w3-total-cache' ); ?></label></th>
 	<td>
 		<input id="cdn_cf_key" class="w3tc-ignore-change" type="text"
-					   <?php Util_Ui::sealing_disabled( 'cdn.' ) ?> name="cdn__cf__key" value="<?php echo esc_attr( $this->_config->get_string( 'cdn.cf.key' ) ); ?>" size="30" />
+					   <?php Util_Ui::sealing_disabled( 'cdn.' ) ?> name="cdn__cf__key" value="<?php echo esc_attr( $this->_config->get_string( 'cdn.cf.key' ) ); ?>" size="30" <?= getenv('ECS_CREDENTIALS') ? 'disabled' : '' ?> />
 	</td>
 </tr>
 <tr>
 	<th><label for="cdn_cf_secret"><?php _e( 'Secret key:', 'w3-total-cache' ); ?></label></th>
 	<td>
 		<input id="cdn_cf_secret" class="w3tc-ignore-change" type="password"
-					   <?php Util_Ui::sealing_disabled( 'cdn.' ) ?> name="cdn__cf__secret" value="<?php echo esc_attr( $this->_config->get_string( 'cdn.cf.secret' ) ); ?>" size="60" />
+					   <?php Util_Ui::sealing_disabled( 'cdn.' ) ?> name="cdn__cf__secret" value="<?php echo esc_attr( $this->_config->get_string( 'cdn.cf.secret' ) ); ?>" size="60" <?= getenv('ECS_CREDENTIALS') ? 'disabled' : '' ?> />
 	</td>
 </tr>
 <tr>
