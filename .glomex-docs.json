@@ -1,7 +1,6 @@
 {
 	"section_name": "WP Satellites",
 	"folders": [
-		"docs",
-		"docs/plugins"
+		"docs"
 	]
 }
