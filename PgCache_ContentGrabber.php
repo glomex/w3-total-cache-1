@@ -2169,6 +2169,15 @@ class PgCache_ContentGrabber {
 		// Calculate content etag
 		$etag = md5( $buffer );
 
+		// Pass content-length in case there are no compression methods enabled
+		if(
+			$compressions_to_store === [false] &&
+			$this->_config->get_boolean( 'browsercache.enabled' ) &&
+			(!$this->_config->get_boolean( 'browsercache.html.compression' ) && !$this->_config->get_boolean( 'browsercache.html.brotli' ))
+		){
+			$headers['Content-Length'] = strlen($buffer);
+		}
+
 		// Send headers
 		$this->_send_headers( $is_404, $time, $etag, $compression_header,
 			$headers );
