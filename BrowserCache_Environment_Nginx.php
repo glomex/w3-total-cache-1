@@ -147,7 +147,7 @@ class BrowserCache_Environment_Nginx {
 			}
 		}
 
-		$rules .= implode( "\n", $this->security_rules() ) . "\n";
+//		$rules .= implode( "\n", $this->security_rules() ) . "\n";
 		$rules .= W3TC_MARKER_END_BROWSERCACHE_CACHE . "\n";
 
 		return $rules;
@@ -396,13 +396,10 @@ class BrowserCache_Environment_Nginx {
 				Util_Environment::w3tc_header() . '";';
 		}
 
-		/**
-		 * Comment this out - just to disable double headers set via nginx
-		 */
-//		if ( !empty( $add_header_rules ) || $extra_add_headers_set ) {
-//			$add_header_rules = array_merge( $add_header_rules,
-//				$this->security_rules() );
-//		}
+		if ( !empty( $add_header_rules ) || $extra_add_headers_set ) {
+			$add_header_rules = array_merge( $add_header_rules,
+				$this->security_rules() );
+		}
 
 		return array( 'add_header' => $add_header_rules, 'other' => $rules );
 	}
