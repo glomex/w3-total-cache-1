@@ -396,10 +396,13 @@ class BrowserCache_Environment_Nginx {
 				Util_Environment::w3tc_header() . '";';
 		}
 
-		if ( !empty( $add_header_rules ) || $extra_add_headers_set ) {
-			$add_header_rules = array_merge( $add_header_rules,
-				$this->security_rules() );
-		}
+		/**
+		 * Comment this out - just to disable double headers set via nginx
+		 */
+//		if ( !empty( $add_header_rules ) || $extra_add_headers_set ) {
+//			$add_header_rules = array_merge( $add_header_rules,
+//				$this->security_rules() );
+//		}
 
 		return array( 'add_header' => $add_header_rules, 'other' => $rules );
 	}
