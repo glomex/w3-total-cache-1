@@ -1,5 +1,5 @@
 ---
-title: "Plugins / W3 Total cache"
+title: "W3 Total cache"
 weight: 10
 ---
 
