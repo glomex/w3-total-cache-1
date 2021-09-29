@@ -2130,6 +2130,12 @@ class PgCache_ContentGrabber {
 			// Compress content
 			$buffers[$_compression] = $this->_compress( $buffer, $_compression );
 
+			// Pass content-length in case there are no compression methods enabled
+			if($_compression === false)
+				$headers['Content-Length'] = strlen($buffers[$_compression]);
+			elseif (isset($headers['Content-Length']))
+				unset($headers['Content-Length']);
+
 			// Store cache data
 			$_data = array(
 				'404' => $is_404,
@@ -2168,15 +2174,6 @@ class PgCache_ContentGrabber {
 
 		// Calculate content etag
 		$etag = md5( $buffer );
-
-		// Pass content-length in case there are no compression methods enabled
-		if(
-			$compressions_to_store === [false] &&
-			$this->_config->get_boolean( 'browsercache.enabled' ) &&
-			(!$this->_config->get_boolean( 'browsercache.html.compression' ) && !$this->_config->get_boolean( 'browsercache.html.brotli' ))
-		){
-			$headers['Content-Length'] = strlen($buffer);
-		}
 
 		// Send headers
 		$this->_send_headers( $is_404, $time, $etag, $compression_header,
