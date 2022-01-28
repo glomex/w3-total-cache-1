@@ -1217,18 +1217,22 @@ class Util_Environment {
 	 * Checks if post belongs to a custom post type
 	 *
 	 * @since 2.1.7
-	 * 
+	 *
 	 * @param unknown $post
 	 *
 	 * @return bool
 	 */
 	static public function is_custom_post_type( $post ) {
+		// we've passed non-post variable to the function
+		if(!is_a($post, 'WP_Post'))
+			return false;
+
 		$post_type = get_post_type_object( $post->post_type );
 
 		// post type not found belongs to default post type(s)
 		if ( empty ( $post_type ) )
 			return false;
-		
+
 		// check if custom
 		if ( $post_type->_builtin === false )
 			return true;
