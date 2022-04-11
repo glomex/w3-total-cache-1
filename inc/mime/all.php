@@ -577,6 +577,8 @@ return array(
 	'wmv' => 'video/x-ms-wmv',
 	'wmx' => 'video/x-ms-wmx',
 	'wmz' => 'application/x-ms-wmz',
+	'woff' => 'font/woff',
+	'woff2' => 'font/woff2',
 	'wpd' => 'application/vnd.wordperfect',
 	'wpl' => 'application/vnd.ms-wpl',
 	'wps|wks|wcm|wdb' => 'application/vnd.ms-works',
