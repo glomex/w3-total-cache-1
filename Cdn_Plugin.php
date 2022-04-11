@@ -399,6 +399,22 @@ class Cdn_Plugin {
 			$themes_root, $themes_path, $this->_config->get_string( 'cdn.theme.files' )
 		);
 
+		/**
+		 * This is our fix for getting parent directory files to upload them to
+		 */
+		if($themes_root !== get_template_directory()){
+			$parent_root = Util_Environment::normalize_path( get_template_directory() );
+			$parent_path = ltrim( str_replace(
+				Util_Environment::normalize_path( Util_Environment::document_root() ), '', $parent_root ), '/' );
+
+			$files = array_merge(
+				$files,
+				Cdn_Util::search_files(
+					$parent_root, $parent_path, $this->_config->get_string( 'cdn.theme.files' )
+				)
+			);
+		}
+
 		return $files;
 	}
 
