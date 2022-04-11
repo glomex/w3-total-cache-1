@@ -52,8 +52,8 @@ return array(
 	'wav' => 'audio/wav',
 	'wma' => 'audio/wma',
 	'wri' => 'application/vnd.ms-write',
-	'woff' => 'font/woff',
-	'woff2' => 'font/woff2',
+	'woff' => 'application/font-woff',
+	'woff2' => 'application/font-woff2',
 	'xla|xls|xlsx|xlt|xlw' => 'application/vnd.ms-excel',
 	'zip' => 'application/zip'
 );
